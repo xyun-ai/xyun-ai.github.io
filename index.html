@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字遗珍：中国木版年画多维信息可视化交互网</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="js/_inline_data.js"></script>
+</head>
+<body>
+
+    <!-- ==================== 滚动进度条 ==================== -->
+    <div class="scroll-progress-bar" id="scroll-progress"></div>
+
+    <!-- ==================== 回到顶部 ==================== -->
+    <button class="back-to-top" id="back-to-top" title="回到顶部">&#9650;</button>
+
+    <!-- ==================== 侧边导航 ==================== -->
+    <nav class="side-nav">
+        <a href="#prologue" class="nav-dot active" data-title="引言·序"></a>
+        <a href="#module-b" class="nav-dot" data-title="意象·壹"></a>
+        <a href="#module-a" class="nav-dot" data-title="存续·贰"></a>
+        <a href="#module-c" class="nav-dot" data-title="匠艺·叁"></a>
+        <a href="#module-d" class="nav-dot" data-title="色谱·肆"></a>
+        <a href="#module-e" class="nav-dot" data-title="题材·伍"></a>
+        <a href="#epilogue" class="nav-dot" data-title="尾声·陆"></a>
+    </nav>
+
+    <!-- ==================== 序卷：全屏意境 ==================== -->
+    <section id="prologue" class="hero-scroll-section">
+        <div class="seal-mark">非物质文化遗产</div>
+        <div class="vertical-title">
+            <h1>數位遺珍</h1>
+            <p class="subtitle">中国木版年画多维信息可视化</p>
+        </div>
+        <div class="scroll-indicator">
+            <span>向下滑动 开启卷轴</span>
+            <span class="scroll-arrow">&#9660;</span>
+        </div>
+    </section>
+
+    <!-- ==================== 全局数据摘要条 ==================== -->
+    <section class="data-ticker-section">
+        <div class="ticker-container">
+            <div class="ticker-item">
+                <span class="ticker-label">记录在册传承人总数</span>
+                <span class="ticker-number counter-target" data-target="286">0</span>
+                <span class="ticker-unit">位</span>
+            </div>
+            <div class="ticker-divider"></div>
+            <div class="ticker-item">
+                <span class="ticker-label">覆盖核心地域</span>
+                <span class="ticker-number counter-target" data-target="14">0</span>
+                <span class="ticker-unit">省/市</span>
+            </div>
+            <div class="ticker-divider"></div>
+            <div class="ticker-item">
+                <span class="ticker-label">经典流派总数</span>
+                <span class="ticker-number counter-target" data-target="22">0</span>
+                <span class="ticker-unit">个</span>
+            </div>
+            <div class="ticker-divider"></div>
+            <div class="ticker-item">
+                <span class="ticker-label">数据年产量</span>
+                <span class="ticker-number counter-target" data-target="680">0</span>
+                <span class="ticker-unit">万张</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 模块B：微观美学 — 代码生成艺术 ==================== -->
+    <section id="module-b" class="scroll-section dark-theme">
+        <div class="story-container">
+            <div class="story-text-panel">
+                <span class="chapter-tag">章节 壹 / 微观美学</span>
+                <h2>代码生成的色彩拓扑</h2>
+                <p class="narrative-p">
+                    我们将七大流派的经典纹样抽象为几何代数图元，提取来自中国传统色系的印泥红、宝蓝、葵黄、黛墨等核心HEX色值。
+                    通过p5.js的动态算法，模拟年画雕版错位、色彩套印与线条张力，在暗色画布上重构非遗美学的数字化表达。
+                    流派切换时有涟漪扩散效果，鼠标划过留下彩色拖尾。
+                </p>
+                <div class="interactive-console">
+                    <p class="tips">鼠标悬停引导粒子流动 · 点击触发涟漪爆破 · 方向键/数字键切换流派 · 空格键暂停轮播</p>
+                    <div class="btn-group">
+                        <button class="style-btn active" data-school="杨柳青">杨柳青 · 工笔线描</button>
+                        <button class="style-btn" data-school="桃花坞">桃花坞 · 繁花织锦</button>
+                        <button class="style-btn" data-school="潍坊杨家埠">杨家埠 · 门神面谱</button>
+                        <button class="style-btn" data-school="凤翔">凤翔 · 西府纳祥</button>
+                        <button class="style-btn" data-school="绵竹">绵竹 · 立锤门神</button>
+                        <button class="style-btn" data-school="朱仙镇">朱仙镇 · 马上鞭</button>
+                        <button class="style-btn" data-school="武强">武强 · 六子争头</button>
+                    </div>
+                </div>
+            </div>
+            <div class="story-visual-panel">
+                <div id="p5-canvas-container">
+                    <div class="p5-tooltip" id="p5-tooltip">🖱 鼠标悬停引导粒子 &nbsp;|&nbsp; 🖱 点击爆破粒子 &nbsp;|&nbsp; ⌨ 方向键切换流派</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 模块A：宏观画像 — 大数据看板 ==================== -->
+    <section id="module-a" class="scroll-section light-theme">
+        <div class="dashboard-wrapper">
+            <div class="dashboard-header">
+                <span class="chapter-tag">章节 贰 / 宏观画像</span>
+                <h2>木版年画生境大数据看板</h2>
+                <p class="dashboard-subtitle">基于真实传承人数据的多维统计分析 · 点击图表可联动模块B艺术生成</p>
+            </div>
+            
+            <div class="dashboard-layout">
+                <div class="insight-panel">
+                    <div class="insight-card scroll-animate">
+                        <h3><span class="num">01</span>地域极度集聚</h3>
+                        <p>数据表明，中国木版年画核心资源高度密集于华东及环渤海地区，形成了以天津西青和江苏苏州为核心的双极化空间格局。西部地区传承资源相对匮乏。</p>
+                    </div>
+                    <div class="insight-card scroll-animate">
+                        <h3><span class="num">02</span>老龄化与时间危机</h3>
+                        <p>通过对传承人出生年份清洗计算，当前在世的国家级大师平均年龄已超过<b id="avg-age-display">74.6岁</b>，高龄传承人占主导地位，数字化抢救性记录迫在眉睫。</p>
+                    </div>
+                    <div class="insight-card scroll-animate">
+                        <h3><span class="num">03</span>师承单一与断层风险</h3>
+                        <p>多维图表显示，大部分传承人表现为单一家族式内传，平均授徒人数普遍较小，年轻一代占比不足，传承谱系抗风险能力较弱。</p>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-top-row">
+                        <div id="chart-geo-school" class="premium-chart premium-chart-map"></div>
+                    </div>
+                    <div class="chart-bottom-row">
+                        <div id="chart-age-pyramid" class="premium-chart"></div>
+                        <div id="chart-apprentice-scatter" class="premium-chart"></div>
+                    </div>
+                    <div class="chart-sankey-row">
+                        <div id="chart-sankey-lineage" class="premium-chart premium-chart-sankey"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 模块C：匠艺·叁 — 工艺时序甘特图 ==================== -->
+    <section id="module-c" class="scroll-section dark-theme">
+        <div class="dashboard-wrapper">
+            <div class="dashboard-header">
+                <span class="chapter-tag">章节 叁 / 匠艺传承</span>
+                <h2>木版年画工艺流程 · 时序编码</h2>
+                <p class="dashboard-subtitle" style="color:rgba(255,255,255,0.6)">从选材到成品的六大工序甘特分解 · 各环节耗时占比与难度系数</p>
+            </div>
+            <div class="craft-layout">
+                <div class="craft-left">
+                    <div class="insight-card scroll-animate" style="background:#1a1a1a;color:#ccc;">
+                        <h3 style="color:var(--gold)"><span class="num">工序透视</span></h3>
+                        <p style="color:#aaa;">一块木版年画的诞生需历经六大核心工序，总耗时约<b style="color:var(--seal-red)">15-25日</b>。其中雕版环节占比最高（40%），是决定年画品质的关键瓶颈。手工套色印刷需反复对版，误差不超过0.3毫米。</p>
+                    </div>
+                    <div id="chart-craft-bar" class="premium-chart" style="background:#1a1a1a;height:240px;margin-top:15px;"></div>
+                </div>
+                <div class="craft-right">
+                    <div id="chart-craft-gantt" class="premium-chart" style="background:#1a1a1a;height:520px;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 模块D：色谱·肆 — 色彩基因图谱 ==================== -->
+    <section id="module-d" class="scroll-section light-theme">
+        <div class="dashboard-wrapper">
+            <div class="dashboard-header">
+                <span class="chapter-tag">章节 肆 / 色彩基因</span>
+                <h2>四大流派色谱对比 · 雷达图谱</h2>
+                <p class="dashboard-subtitle">基于真实年画颜料的HEX提取 · 中国色系分析</p>
+            </div>
+            <div class="color-layout">
+                <div class="color-left">
+                    <div id="chart-color-radar" class="premium-chart" style="height:420px;"></div>
+                </div>
+                <div class="color-right">
+                    <div class="color-swatch-grid">
+                        <div class="color-school-swatch" data-school="杨柳青">
+                            <h4>杨柳青 · 宫廷雅韵</h4>
+                            <div class="swatch-row"><span style="background:#D5625A"></span><span style="background:#2B4490"></span><span style="background:#F3C786"></span><span style="background:#4A4135"></span><span style="background:#C98F8F"></span></div>
+                            <p>胭脂红 宝蓝 葵黄 黛墨 藕荷</p>
+                        </div>
+                        <div class="color-school-swatch" data-school="桃花坞">
+                            <h4>桃花坞 · 江南秀雅</h4>
+                            <div class="swatch-row"><span style="background:#DE82A2"></span><span style="background:#56876D"></span><span style="background:#2B4490"></span><span style="background:#E29C45"></span><span style="background:#F5E6D0"></span></div>
+                            <p>桃花粉 竹青 靛蓝 金盏 米白</p>
+                        </div>
+                        <div class="color-school-swatch" data-school="潍坊杨家埠">
+                            <h4>杨家埠 · 乡土浓烈</h4>
+                            <div class="swatch-row"><span style="background:#DE1C31"></span><span style="background:#1D953F"></span><span style="background:#F7C42F"></span><span style="background:#2E1E0E"></span><span style="background:#E8493A"></span></div>
+                            <p>大红 翠绿 明黄 玄墨 朱砂</p>
+                        </div>
+                        <div class="color-school-swatch" data-school="凤翔">
+                            <h4>凤翔 · 西府古拙</h4>
+                            <div class="swatch-row"><span style="background:#AA2116"></span><span style="background:#C7A252"></span><span style="background:#3B4C6B"></span><span style="background:#5D4037"></span><span style="background:#F5DEB3"></span></div>
+                            <p>铁锈红 古铜金 藏蓝 栗壳 麦色</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 模块E：题材·伍 — 主题词云与对比 ==================== -->
+    <section id="module-e" class="scroll-section dark-theme">
+        <div class="dashboard-wrapper">
+            <div class="dashboard-header">
+                <span class="chapter-tag">章节 伍 / 题材图谱</span>
+                <h2>年画题材分类 · 流派风格雷达</h2>
+                <p class="dashboard-subtitle" style="color:rgba(255,255,255,0.6)">门神·祈福·戏曲·仕女·民俗·神话六维对比</p>
+            </div>
+            <div class="theme-layout">
+                <div class="theme-left">
+                    <div id="chart-theme-radar" class="premium-chart" style="background:#1a1a1a;height:440px;"></div>
+                </div>
+                <div class="theme-right">
+                    <div id="chart-theme-treemap" class="premium-chart" style="background:#1a1a1a;height:440px;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 尾声 ==================== -->
+    <section id="epilogue" class="hero-scroll-section end-section">
+        <div class="end-content">
+            <p class="end-label">文脉之承，数理之光</p>
+            <h3>让传统在代码中永生</h3>
+            <div class="horizontal-line"></div>
+            <p class="end-quote">「木板之上，刀锋游走，千年文脉化作可视之形」</p>
+            <div class="horizontal-line"></div>
+        </div>
+    </section>
+
+    <script src="js/sketch.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
